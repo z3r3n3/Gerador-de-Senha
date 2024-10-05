@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #passwordContainer {
+            margin-top: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #password {
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Password Generator</h1>
+    
+    <button onclick="generatePassword()">Generate Password</button>
+    <button onclick="copyPassword()">Copy Password</button>
+    
+    <div id="passwordContainer">
+        <p id="password">Your password will appear here</p>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const lowercase = "abcdefghijklmnopqrstuvwxyz";
+            const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const numbers = "0123456789";
+            const specialChars = "!@#$%^&*()_+{}[]|:;<>,.?/~`";
+
+            // Ensure at least one character from each required set
+            let password = "";
+            password += lowercase[Math.floor(Math.random() * lowercase.length)];
+            password += uppercase[Math.floor(Math.random() * uppercase.length)];
+            password += numbers[Math.floor(Math.random() * numbers.length)];
+            password += specialChars[Math.floor(Math.random() * specialChars.length)];
+
+            // Fill the rest of the password with random characters
+            const allChars = lowercase + uppercase + numbers + specialChars;
+            for (let i = password.length; i < 8; i++) {
+                password += allChars[Math.floor(Math.random() * allChars.length)];
+            }
+
+            // Shuffle the password to make it more random
+            password = password.split('').sort(() => 0.5 - Math.random()).join('');
+            
+            // Display the generated password
+            document.getElementById('password').textContent = password;
+        }
+
+        function copyPassword() {
+            const passwordText = document.getElementById('password').textContent;
+            const tempInput = document.createElement('input');
+            tempInput.value = passwordText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+           
+        }
+    </script>
+</body>
+</html>
